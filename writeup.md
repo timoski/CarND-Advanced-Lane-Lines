@@ -21,9 +21,9 @@ The goals / steps of this project are the following:
 [image2]: ./test_images/test1.jpg "Road Transformed"
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./output_images/warped_threshold_undistort_straight_lines2_withlines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
-[video1]: ./project_video.mp4 "Video"
+[image5]: ./output_images/slide_windows.jpg "Fit Visual"
+[image6]: /output_images/warped_back_lines.jpg "Output"
+[video1]: ./challenge_video_output.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -124,19 +124,20 @@ I verified that my perspective transform was working as expected by drawing the 
 
 ![alt text][image4]
 
-#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
-
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
-
+#### 4. Use sliding window and fit polynomial
+In this step I get from the binary image to the two line markings that are described as polynomial. This step is implemented in the `fit_polynomial` function.
+First I call the `find_lane_pixels` function. This function takes the binary thresholded image and creates a histogram of the bottom half of the image. Then I take the highest bars of the histogram on the left half and on the right half as start points for my left and right lane. Starting from the bottom of the image I slide up the image with a window for left and right lane. For every window the average position of white pixels is calculated. The average position is used as start point for the next window position.
+Finaly I fit a second order polynomial through the sliding window positions:
 ![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 I did this in lines # through # in my code in `my_other_file.py`
 
-#### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+#### 6. Plot result back down onto the road
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+Finally I transformed the lines back to the real world in the function `transformRealWorld`.
+First, I create an empty image of the size of an warped image. Second, I draw my lanes into the image. Third, I calculate the invers matrix from the warped image to the original image. Fourth, I warp the image with the inverse matrix back. Last, I combine the warped back image with the original image. The result is shown in this picture:
 
 ![alt text][image6]
 
