@@ -15,7 +15,8 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./output_images/calibration1_undistort.jpg "Undistorted"
+[image1]: ./output_images/calibration1_undistort.jpg "Undistorted Calibration Image"
+[image1_1]: ./output_images/undistort_test1.jpg "Undistorted Test Image"
 [image2]: ./test_images/test1.jpg "Road Transformed"
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
@@ -50,11 +51,43 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 #### 1. Provide an example of a distortion-corrected image.
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
+![alt text][image1_1]
 
-#### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
+#### 2. Threshold image to find lines.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of three different thresholds to detect lines in the image:
+##### 1. Gradient in x direction and y direction or magnitude and direction
+    # Apply each of the thresholding functions
+    gradx = abs_sobel_thresh(gray, orient='x', thresh=(20, 100))
+    grady = abs_sobel_thresh(gray, orient='y', thresh=(20, 100))
+    
+    # Magnitude and direction
+    mag_binary = mag_thresh(gray, mag_thresh=(30, 100))
+    dir_binary = dir_threshold(gray,sobel_kernel=15, thresh=(0.7, 1.3))
+    
+    # Combine sobelx, magnitude and direction
+    sobel_combined = np.zeros_like(dir_binary)
+    sobel_combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1
+##### 2. Color Threshold for white lines
+    # Threshold white line
+    r_thresh = (180, 255)
+    g_thresh = (180, 255)
+    b_thresh = (180, 255)
+    wl_thres = (200, 255)
+    wl_binary = np.zeros_like(R)
+    wl_binary[(R > r_thresh[0]) & (R <= r_thresh[1]) & (G > g_thresh[0]) & (G <= g_thresh[1]) & 
+               (B > b_thresh[0]) & (B <= b_thresh[1]) & (l_channel > wl_thres[0]) & (l_channel <= wl_thres[1])] = 1
+##### 3. Color Threshold for yellow lines
+    # Threshold yellow line
+    ys_thresh = (100, 255)
+    yh_thresh = (10, 80)
+    yl_binary = np.zeros_like(R)
+    yl_binary[(s_channel > ys_thresh[0]) & (s_channel <= ys_thresh[1]) & 
+              (h_channel > yh_thresh[0]) & (h_channel <= yh_thresh[1])
+             ] = 1
+Finaly I combine all three parts together:
+``combined_binary[((wl_binary == 1) | (yl_binary==1)) | (sobel_combined == 1)] = 1``
+(thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
 
 ![alt text][image3]
 
