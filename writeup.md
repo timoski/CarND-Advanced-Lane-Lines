@@ -22,7 +22,7 @@ The goals / steps of this project are the following:
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./output_images/warped_threshold_undistort_straight_lines2_withlines.jpg "Warp Example"
 [image5]: ./output_images/slide_windows.jpg "Fit Visual"
-[image6]: /output_images/warped_back_lines.jpg "Output"
+[image6]: ./output_images/warped_back_lines.jpg "Output"
 [video1]: ./challenge_video_output.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -131,8 +131,10 @@ Finaly I fit a second order polynomial through the sliding window positions:
 ![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+From the measure curvature II example we know that the lane width is 3.7 m and the length of a dashed line is 3 m. I measured the lane width and the line length in a warped image. This gives us a lane width of 640 pixel, and a line length of 100 pixel. We know stretch the stretch the warped image to by multiplying with norming factor in x and y dimension. Then I calculate the coefficients for the left and right lane from the stretched and warped image. With these coefficients we can now calculate the radius of the lanes in the real world.
+To get the offset, I use the third coefficient of the polynomial and subtract the distance between the left positon of the image and the center of the image. This is done for left and right lane, added both together and devided the result by two. This gives us the offset to the center of the lane.
+The described steps are implemented in the function `measure_curvature_real`.
 
-I did this in lines # through # in my code in `my_other_file.py`
 
 #### 6. Plot result back down onto the road
 
@@ -145,7 +147,7 @@ First, I create an empty image of the size of an warped image. Second, I draw my
 
 ### Pipeline (video)
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+My pipeline for the video is implemented in function `ProcessImageR`.
 
 Here's a [link to my video result](./project_video.mp4)
 
@@ -155,4 +157,4 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+My pipeline seems to have issues if the lane markings have low contrast and if there are other lanes next to the lane marking. This could be improved by predicting the lanes and using the angle of steering. 
