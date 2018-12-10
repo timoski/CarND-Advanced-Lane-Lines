@@ -149,7 +149,7 @@ First, I create an empty image of the size of an warped image. Second, I draw my
 
 My pipeline for the video is implemented in function `ProcessImageR`.
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./challenge_video_output.mp4)
 
 ---
 
