@@ -23,7 +23,8 @@ The goals / steps of this project are the following:
 [image4]: ./output_images/warped_threshold_undistort_straight_lines2_withlines.jpg "Warp Example"
 [image5]: ./output_images/slide_windows.jpg "Fit Visual"
 [image6]: ./output_images/warped_back_lines.jpg "Output"
-[video1]: ./challenge_video_output.mp4 "Video"
+[video1]: ./project_video_output.mp4 "Video Output"
+[video2]: ./challenge_video_output.mp4 "Challenge Video Output"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -148,8 +149,9 @@ First, I create an empty image of the size of an warped image. Second, I draw my
 ### Pipeline (video)
 
 My pipeline for the video is implemented in function `ProcessImageR`.
+![alt text][video1]
+![alt text][video2]
 
-Here's a [link to my video result](./challenge_video_output.mp4)
 
 ---
 
