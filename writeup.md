@@ -21,7 +21,7 @@ The goals / steps of this project are the following:
 [image2]: ./test_images/test1.jpg "Road Transformed"
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./output_images/warped_threshold_undistort_straight_lines2_withlines.jpg "Warp Example"
-[image5]: ./output_images/slide_windows.jpg "Fit Visual"
+[image5]: ./output_images/slide_window.jpg "Fit Visual"
 [image6]: ./output_images/warped_back_lines.jpg "Output"
 [video1]: ./project_video_output.mp4 "Video Output"
 [video2]: ./challenge_video_output.mp4 "Challenge Video Output"
@@ -149,9 +149,7 @@ First, I create an empty image of the size of an warped image. Second, I draw my
 ### Pipeline (video)
 
 My pipeline for the video is implemented in function `ProcessImageR`.
-![alt text][video1]
-![alt text][video2]
-
+Here's a [link to my video result](./project_video_output.mp4) and a [link to the challenge video output](./challenge_video_output.mp4).
 
 ---
 
